@@ -1,0 +1,234 @@
+{
+    "info": {
+        "name": "AI CV & Job Matching API",
+        "description": "Postman Collection for the AI CV & Job Matching Backend",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "1. Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8000/health",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000",
+                    "path": [
+                        "health"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "2. Upload CV",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "X-API-Key",
+                        "value": "{{api_key}}",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "file",
+                            "type": "file",
+                            "src": []
+                        },
+                        {
+                            "key": "candidate_name",
+                            "value": "John Doe",
+                            "type": "text"
+                        },
+                        {
+                            "key": "title",
+                            "value": "Backend Engineer",
+                            "type": "text"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "http://localhost:8000/cvs",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000",
+                    "path": [
+                        "cvs"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "3. Create Job Posting",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "X-API-Key",
+                        "value": "{{api_key}}",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"Backend Engineer\",\n  \"company\": \"TechCorp\",\n  \"location\": \"Remote\",\n  \"description_text\": \"Looking for a seasoned Python backend engineer familiar with FastAPI, PostgreSQL and pgvector.\",\n  \"tags\": [\"python\", \"fastapi\", \"postgres\"]\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:8000/jobs",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000",
+                    "path": [
+                        "jobs"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "4. Match CV -> Jobs",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "X-API-Key",
+                        "value": "{{api_key}}",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"top_k\": 5\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:8000/match/cv/<ENTER_CV_ID_HERE>",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000",
+                    "path": [
+                        "match",
+                        "cv",
+                        "<ENTER_CV_ID_HERE>"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "5. Match Job -> CVs",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "X-API-Key",
+                        "value": "{{api_key}}",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"top_k\": 5\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:8000/match/job/<ENTER_JOB_ID_HERE>",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000",
+                    "path": [
+                        "match",
+                        "job",
+                        "<ENTER_JOB_ID_HERE>"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "6. Explain Match (RAG)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "X-API-Key",
+                        "value": "{{api_key}}",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"cv_id\": \"<ENTER_CV_ID>\",\n  \"job_id\": \"<ENTER_JOB_ID>\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:8000/explain",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000",
+                    "path": [
+                        "explain"
+                    ]
+                }
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "api_key",
+            "value": "dev-secret-key",
+            "type": "string"
+        }
+    ]
+}
