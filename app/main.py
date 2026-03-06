@@ -12,7 +12,10 @@ app = FastAPI(title=settings.PROJECT_NAME)
 
 app.include_router(api_router)
 
-@app.get("/health", tags=["health"])
+from fastapi import Depends
+from app.core.rate_limit import rate_limit_dependency
+
+@app.get("/health", tags=["health"], dependencies=[Depends(rate_limit_dependency)])
 async def health_check():
     return {"status": "ok"}
 
